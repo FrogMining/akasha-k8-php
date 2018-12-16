@@ -1,0 +1,51 @@
+# Headless service for stable DNS entries of StatefulSet members.
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  ports:
+  - name: mysql
+    port: 3306
+  clusterIP: None
+  selector:
+    app: mysql
+---
+# Client service for connecting to any MySQL instance for reads.
+# For writes, you must instead connect to the master: mysql-0.mysql.
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-read
+  labels:
+    app: mysql
+spec:
+  ports:
+  - name: mysql
+    port: 3306
+  selector:
+    app: mysql
+---
+
+# expose PHP and Apache on port 80 to the world through a load balancer
+apiVersion: v1
+# https://kubernetes.io/docs/concepts/services-networking/service/
+kind: Service
+metadata:
+  # the name web here means you can reference the PHP pods
+  # using the host web.default.svc.cluster.local from within the cluster
+  name: mysql-expose
+  labels:
+    app: lamp
+spec:
+  selector:
+    app: mysql
+  type: NodePort
+  ports:
+   - name: http
+     port: 3306
+     protocol: TCP
+     targetPort: 3306
+     nodePort: 30086
