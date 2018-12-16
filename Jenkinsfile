@@ -6,9 +6,14 @@ pipeline {
       label "jenkins-maven"
     }
     stages {
-        stage('Build') {
+        stage('Validate Environment') {
             steps {
                 echo 'Building..'
+                container('maven') {
+                  dir('env') {
+                    sh 'jx step helm build'
+                  }
+                }
             }
         }
         stage('Test') {
@@ -17,8 +22,16 @@ pipeline {
             }
         }
         stage('Deploy') {
+            when {
+              branch 'master'
+            }
             steps {
                 echo 'Deploying....'
+                container('maven') {
+                  dir('env') {
+                    sh 'jx step helm apply'
+                  }
+                }
             }
         }
     }
