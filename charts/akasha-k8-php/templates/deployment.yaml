@@ -30,7 +30,7 @@ spec:
           - name: MYSQL_PASSWORD
             value: ""
           - name: MYSQL_HOST
-            value: mysql-read.default.svc.cluster.local
+            value: mysql-read.jx.svc.cluster.local
         livenessProbe:
           tcpSocket:
             port: 80
