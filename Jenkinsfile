@@ -9,10 +9,7 @@ pipeline {
         stage('Validate Environment') {
             steps {
                 echo 'Building..'
-                container('maven') {
-                  dir('env') {
-                    sh 'jx step helm build -d charts/akasha-k8-php'
-                  }
+                sh 'jx step helm build -d charts/akasha-k8-php'
                 }
             }
         }
