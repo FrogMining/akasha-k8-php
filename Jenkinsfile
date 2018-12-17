@@ -10,7 +10,6 @@ pipeline {
             steps {
                 echo 'Building..'
                 sh 'jx step helm build -d charts/akasha-k8-php'
-                }
             }
         }
         stage('Test') {
