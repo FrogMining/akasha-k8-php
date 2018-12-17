@@ -9,7 +9,11 @@ pipeline {
         stage('Validate Environment') {
             steps {
                 echo 'Building..'
-                sh 'jx step helm build -d charts/akasha-k8-php'
+                container('maven') {
+                  dir('charts/akasha-k8-php') {
+                    sh 'jx step helm build'
+                  }
+                }
             }
         }
         stage('Test') {
@@ -24,8 +28,8 @@ pipeline {
             steps {
                 echo 'Deploying....'
                 container('maven') {
-                  dir('env') {
-                    sh 'jx step helm apply -d charts/akasha-k8-php'
+                  dir('charts/akasha-k8-php') {
+                    sh 'jx step helm build'
                   }
                 }
             }
