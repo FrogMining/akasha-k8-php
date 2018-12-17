@@ -29,7 +29,7 @@ pipeline {
                 echo 'Deploying....'
                 container('maven') {
                   dir('charts/akasha-k8-php') {
-                    sh 'jx step helm build'
+                    sh 'jx step helm apply'
                   }
                 }
             }
