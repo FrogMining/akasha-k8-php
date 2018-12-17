@@ -11,7 +11,7 @@ pipeline {
                 echo 'Building..'
                 container('maven') {
                   dir('env') {
-                    sh 'jx step helm build'
+                    sh 'jx step helm build -d charts/akasha-k8-php'
                   }
                 }
             }
@@ -29,7 +29,7 @@ pipeline {
                 echo 'Deploying....'
                 container('maven') {
                   dir('env') {
-                    sh 'jx step helm apply'
+                    sh 'jx step helm apply -d charts/akasha-k8-php'
                   }
                 }
             }
